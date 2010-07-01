@@ -1,0 +1,44 @@
+#workflow_list
+
+  %h1
+    Uploaded Workflows
+  
+  %blockquote
+    This is a list of available uploaded workflows
+
+  - attrs = ["Name", "User", "Created At", "Archive", "Status", "Properties", "XML", "Jobs", "Commands"]
+  
+  %table
+    %thead
+      %tr
+        - attrs.each do |attr|
+          %th
+            = attr
+        
+    %tbody
+      - @workflows.each do |workflow|
+        %tr{:class => cycle("even", "odd")}
+          %td
+            = link_to workflow.name, :action => :show, :id => workflow.id
+          %td
+            = workflow.user.username
+          %td
+            = format_time(workflow.created_at)
+          %td
+            = workflow.archive_file_name
+          %td
+            = workflow.status
+          - if workflow.status_code == 4
+            %td
+              = link_to "edit properties", :action => :edit_properties, :id => workflow.id
+            %td
+              = link_to "workflow.xml", :action => :show_xml, :id => workflow.id
+            %td
+              = link_to "Jobs", :action => :jobs, :id => workflow.id
+            %td
+              = link_to "Start New Job", :action => :start, :id => workflow.id
+          - else
+            %td
+            %td
+            %td
+            %td

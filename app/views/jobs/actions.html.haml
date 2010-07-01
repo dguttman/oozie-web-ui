@@ -1,0 +1,34 @@
+%h1
+  Job Actions
+  
+= render :partial => 'job_actions'  
+  
+#actions
+  - @actions.each_with_index do |action, action_i|
+    - attrs = (action.methods.sort - OpenStruct.new.methods - Object.methods)
+    
+    %table
+      %thead
+        %tr
+          %th{:class => "parameter"}
+            Parameter
+          %th{:class => "value"}
+            Value
+      %tbody
+        - attrs.each_with_index do |attr, attr_i|
+          - unless attr =~ /=$/ || action.send(attr.to_sym).nil?
+            %tr{:class => cycle("odd", "even")}
+              %td{:class => "parameter"}
+                = "#{attr.to_s.titlecase}"
+                
+              %td{:class => "value"}
+                %div{:id => "attr_value_short_#{action_i}_#{attr_i}"}
+                  - short_length = 200
+                  - if attr.to_s.titlecase == "Console Url"
+                    = link_to truncate(action.send(attr.to_sym), 50), action.send(attr.to_sym)
+                  - else
+                    ~ "<pre>#{truncate(h(action.send(attr.to_sym)), short_length)}</pre>"
+                
+                %div{:id => "attr_value_long_#{action_i}_#{attr_i}", :style => "display: none"}
+                  ~ "<pre>#{h(action.send(attr.to_sym))}</pre>"
+                = link_to "More/Less", "#", :onclick => "Element.toggle('attr_value_long_#{action_i}_#{attr_i}'); Element.toggle('attr_value_short_#{action_i}_#{attr_i}'); return false;" if h(action.send(attr.to_sym)).size > short_length

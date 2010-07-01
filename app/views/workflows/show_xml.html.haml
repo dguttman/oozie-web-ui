@@ -1,0 +1,36 @@
+%h1
+  Workflow XML
+
+#workflow_xml
+  #versions
+    - if @workflow.versions.size > 0
+      Versions:
+      %ul
+        %li
+          - if params[:version].to_i == 1
+            = "Original"
+          - else
+            = link_to "Original", {:controller => :workflows, :action => :show_xml, :version => 1}
+          = " | "
+        - @workflow.versions.each do |v|
+          - unless v == @workflow.versions.last
+            %li
+              - if params[:version].to_i == v.number
+                = v.number
+              - else
+                = link_to v.number, {:controller => :workflows, :action => :show_xml, :version => v.number}
+              = " | "
+        %li
+          - if params[:version] == nil
+            = "Current"
+          - else
+            = link_to "Current", :controller => :workflows, :action => :show_xml
+  
+  .form  
+    = form_tag url_for(:action => :update_xml, :id => @workflow.id), :method => :put
+  
+    = text_area_tag :xml, @xml
+
+    %br
+    
+    = submit_tag "Save Changes", :class => "submit" if current_user == @workflow.user

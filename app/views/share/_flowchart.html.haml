@@ -1,0 +1,182 @@
+= javascript_include_tag "canvastext", "processing-0.7.1.min.js"
+
+:erb
+  <!-- Canvas Element -->
+
+  <canvas id="canvas" width="945px" height="100%" style="border: 1px solid #333333"></canvas>
+
+  <script id="sketch">
+    var nodes = eval(<%= @nodes %>);
+    
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    // this adds the text functions to the ctx
+    CanvasTextFunctions.enable(ctx);
+    
+    PFont fontA = loadFont("Arial");  
+         
+    void setup() {
+      size(945,500);
+      frameRate(20);
+      strokeWeight(1);
+      background(232, 234, 232);
+      textFont(fontA, 10);
+      
+      // Set proper x and y
+      Object.keys(nodes).each(function(name) {
+        var node = nodes[name];
+        node.size = width/2 * node.size;
+        node.x = width*node.x + node.size/2;
+        node.y = (5.0*height/6.0 - 40)*node.y + node.size/4;
+      });
+      
+      // Draw the connections
+      Object.keys(nodes).each(function(name) {
+        var node = nodes[name];
+        fill(255);
+        stroke(255, 0, 0);
+        strokeWeight(2);
+        
+        node.outputs.each(function(output) {
+          stroke(80, 80, 80);
+          
+          if(nodes[output].type == "kill") {
+            stroke(150, 0, 20, 20);
+          // } else if(nodes[output].type == "action"){
+          //   stroke(0, 200, 20);
+          };
+          
+          connection(node.x+node.size/2, node.y+node.size/2.0, nodes[output].x+node.size/2.0, nodes[output].y+node.size/2.0, 4*node.size/5)  
+
+        });
+      });
+      
+      // Draw the nodes
+      Object.keys(nodes).each(function(name) {
+        var node = nodes[name];
+        draw_node(node);
+      });
+      
+      // Draw the legend
+      fill(202, 204, 202);
+      stroke(0,0,0,255);
+      strokeWeight(0);
+      rect(-2, (5.0*height/6.0), 100, height);
+      
+      var i = 0;
+      var actions = ["start", "action", "kill", "fork", "join", "decision"];
+      actions.each(function(type) {
+        var space = 4;
+        var x = 20;
+        var s = (height/6.0 - (actions.length * space))/actions.length;
+        var y = (5.0*height/6.0) + (i * s) + (i*space) + (s/2+space);
+        
+        type_fill(type);
+        stroke(255,255,255,255);
+        strokeWeight(1);
+        ellipse(x, y, s, s);
+        
+        
+        stroke(0,0,0,255);
+        ctx.drawText("Verdana", 10, x+s, y+(s/4), type);
+        
+        i = i + 1;
+      });
+
+    }
+
+    void draw() {
+    }
+    
+    void connection(x1, y1, x2, y2, x_dist) {      
+      var dx = x2 - x1;
+      var dy = y2 - y1;
+      
+      var po = cartesian_to_polar(dx, dy);
+      var xy3 = polar_to_cartesian(po[0] - x_dist, po[1]);
+      
+      var x3 = xy3[0]+x1;
+      var y3 = xy3[1]+y1;
+
+      polar = cartesian_to_polar(dx, dy);
+      r = polar[0];
+      t = polar[1];
+      
+      var top_cart = polar_to_cartesian(-10, t+PI/6)
+      var bot_cart = polar_to_cartesian(-10, t-PI/6)
+      
+      var top_x = top_cart[0] + x3;
+      var top_y = top_cart[1] + y3;
+    
+      var bot_x = bot_cart[0] + x3;
+      var bot_y = bot_cart[1] + y3;
+      
+      line(x1, y1, x3, y3);
+      line(top_x, top_y, x3, y3);
+      line(bot_x, bot_y, x3, y3);
+      
+    }
+    
+    void type_fill(type) {
+      if(type == "action") {
+        fill(0, 255, 0, 100);
+      } else if(type == "kill"){
+        fill(255, 0, 0, 100);
+      } else if(type == "fork"){
+        fill(255, 255, 0, 100);
+      } else if(type == "join"){
+        fill(0, 0, 255, 100);
+      } else if(type == "decision"){
+        fill(0, 255, 255, 100);
+      } else if(type == "start"){
+        fill(20, 20, 20, 100);
+      }
+    }
+    
+    void draw_node(obj node) {
+      fill(20, 100);
+      stroke(255, 255, 255, 200);
+      strokeWeight(2);
+      
+      type_fill(node.type);
+      
+      node_box(node.x, node.y, node.size, node.name);
+    }
+    
+    void node_box(x, y, s, n) {
+      ellipse(x+s/2, y+s/2, s, s);
+      
+      fill(0);
+      center_text(x+s/2.0, y+s+15, n);
+    }
+    
+    void center_text(int x, int y, str c_text) {
+      fill(255, 255, 255, 150);
+      stroke(0,0,0,255);
+      strokeWeight(0);
+      var w = c_text.length()*8;
+      rect(x-w/2, y+5, w, -18);
+      stroke(0,0,0,255);
+      ctx.drawTextCenter("Verdana", 10, x, y, c_text);
+    }
+    
+    void cartesian_to_polar(x, y) {
+      var r = sqrt(Math.pow(x,2)+Math.pow(y,2));
+      var t = Math.atan2(y,x);
+      return [r, t];
+    }
+    
+    void polar_to_cartesian(r, t) {
+      var x = r*Math.cos(t)
+      var y = r*Math.sin(t)
+      return [x, y];
+    }
+    
+  </script>
+
+:erb
+  <!-- Sketch Initializer -->
+
+  <script>(function(){var init=function(){var canvas=document.getElementById("canvas");var sketch=document.getElementById("sketch").text;Processing(canvas,sketch);}
+  addEventListener("DOMContentLoaded", init, false);})();</script>

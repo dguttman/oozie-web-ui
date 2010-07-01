@@ -1,0 +1,15 @@
+.job_actions
+  - if @job.user == current_user.username
+    - actions = []
+    - if @job.status == "KILLED" || @job.status == "SUCCEEDED"
+      - actions << link_to("Restart", :controller => :jobs, :action => :restart, :id => @job.id)
+    - if @job.status == "PREP"
+      - actions << link_to("Start", :controller => :jobs, :action => :start, :id => @job.id)
+    - if @job.status == "RUNNING"
+      - actions << link_to("Suspend", :controller => :jobs, :action => :suspend, :id => @job.id )
+      - actions << link_to("Kill", :controller => :jobs, :action => :kill, :id => @job.id)
+    - if @job.status == "SUSPENDED"
+      - actions << link_to("Resume", :controller => :jobs, :action => :resume, :id => @job.id)
+      - actions << link_to("Kill", :controller => :jobs, :action => :kill, :id => @job.id)
+    = "Commands: "
+    = actions.join(" | ") 

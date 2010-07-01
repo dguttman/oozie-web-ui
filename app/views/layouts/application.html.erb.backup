@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html>
+  <head>
+    <%= stylesheet_link_tag "/stylesheets/blueprint/screen" %>
+    <%= stylesheet_link_tag "/stylesheets/blueprint/print", :media => "print" %>
+    <!--[if IE]><%= stylesheet_link_tag "/blueprint/ie.css" %><![endif]-->
+    <!--
+       table_stylesheet_link_tag ('infected') %>
+       table_stylesheet_link_tag ('blu_in_block') %>
+    -->
+    <%= stylesheet_link_tag "/stylesheets/custom.css" %>
+
+    <%= javascript_include_tag :defaults %>
+  </head>
+  
+  <body>
+    <div id="header" class="container span-24 last">
+      
+      <%= link_to image_tag("oozie_logo.png"), root_url %>
+    </div>
+    
+    <%= render :partial => "layouts/nav" %>
+
+    <div class="container">
+      <%= render :partial => "/share/flash_message" %>
+      <!-- <div class="span-4"> </div> -->
+      <div class="span-24 last">
+        <%= @content_for_layout %>
+      </div>
+    </div>
+
+    <div id="footer"></div>
+    
+  </body>
+</html>

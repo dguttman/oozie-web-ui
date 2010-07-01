@@ -1,0 +1,9 @@
+#workflow_jobs
+
+  %h1
+    = "Jobs for Workflow: #{@workflow.name}"
+  
+  %blockquote
+    A list of jobs started from this workflow
+  
+  = render :partial => 'jobs/jobs_list_table'

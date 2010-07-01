@@ -1,0 +1,25 @@
+= periodically_call_remote(:url => { :action => 'log', :no_layout => "true" }, :update => 'logfile', :frequency => 2) if params[:auto_update]
+
+#log
+
+  %h1
+    Job Log
+  
+  = render :partial => 'job_actions'
+  
+  .auto_update_switch
+    = "Automatic Update: "
+    - if params[:auto_update]
+      = "ON"
+      = " | "
+      = link_to "OFF", params.merge(:auto_update => nil)
+    - else
+      = link_to "ON", params.merge(:auto_update => true)
+      = " | "
+      = "OFF"
+  
+
+
+  .preformatted
+    #logfile
+      = render :partial => "logfile"

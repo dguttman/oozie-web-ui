@@ -1,0 +1,28 @@
+#workflow_info
+  %h1
+    Workflow Info
+
+  :ruby
+    @attrs = [  ["Name", @workflow.name],
+                ["User", @workflow.user.username],
+                ["Status", @workflow.status],
+                ["Archive Filename", @workflow.archive_file_name],
+                ["Created At", format_time(@workflow.created_at)]
+              ]
+
+  %table
+    %thead
+      %th{:class => "parameter"}
+        Parameter
+      %th{:class => "value"}
+        Value
+    %tbody
+      - @attrs.each do |param, value|
+        %tr{:class => cycle("odd", "even")}
+          %td{:class => "parameter"}
+            = "#{param}"
+          %td{:class => "value"}
+            = "#{value}"
+            
+  .delete
+    = link_to "Delete Workflow?", {:action => :delete, :id => @workflow.id}, :method => :delete, :confirm => "Are you sure you want to DELETE workflow \"#{@workflow.name}\" ?" if @workflow.user == current_user

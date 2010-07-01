@@ -1,0 +1,2 @@
+module OozieHelper
+end

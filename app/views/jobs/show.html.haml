@@ -1,0 +1,21 @@
+%h1
+  Job Info
+
+= render :partial => 'job_actions'
+
+
+- @attrs = [  :id, :name, :user, :status, :run, :started_at, :created_at, :ended_at, :console_url, :group, :path, :actions, :external_id ]
+
+%table
+  %thead
+    %th{:class => "parameter"}
+      Parameter
+    %th{:class => "value"}
+      Value
+  %tbody
+    - @attrs.each do |attr|
+      %tr{:class => cycle("odd", "even")}
+        %td{:class => "parameter"}
+          = "#{attr.to_s.titlecase}"
+        %td{:class => "value"}
+          = "#{@job.send(attr)}"

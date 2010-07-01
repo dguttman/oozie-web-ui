@@ -1,0 +1,48 @@
+#nav.container.span-24.last
+    
+  .links.first_links
+    %ul
+      %li{:class => "#{"selected" if params[:controller] == "jobs"}"}
+        = link_to "Jobs", :controller => :jobs
+      %li{:class => "#{"selected" if params[:controller] == "workflows"}"}
+        = link_to "Workflows", :controller => :workflows
+  
+  - if params[:controller] == "jobs"
+    .links.second_links
+      %ul
+        %li{:class => "#{"selected" if params[:action] == "index"}"}
+          = link_to "List", :controller => :jobs, :action => :index
+        -if params[:id]
+          :ruby
+            menu_links = [ 
+                            ["Info", {:controller => :jobs, :action => :show, :id => @job.id}],
+                            ["Actions", {:controller => :jobs, :action => :actions, :id => @job.id}],
+                            ["Definition", {:controller => :jobs, :action => :definition, :id => @job.id}],
+                            ["Configuration", {:controller => :jobs, :action => :conf, :id => @job.id}],
+                            ["Log", {:controller => :jobs, :action => :log, :id => @job.id}],
+                            ["Flowchart", {:controller => :jobs, :action => :flowchart, :id => @job.id}]
+                          ]
+          - menu_links.each do |link_text, url_params|
+            %li{:class => "#{"selected" if params[:action] == url_params[:action].to_s}"}
+              = link_to link_text, url_params
+
+  - elsif params[:controller] == "workflows"
+    .links.second_links
+      %ul
+        %li{:class => "#{"selected" if params[:action] == "index"}"}
+          = link_to "List", :controller => :workflows, :action => :index
+        %li{:class => "#{"selected" if params[:action] == "new"}"}
+          = link_to "Upload", :controller => :workflows, :action => :new
+
+        -if params[:id]
+          :ruby
+            menu_links = [ 
+                            ["Info", {:controller => :workflows, :action => :show, :id => @workflow.id}],
+                            ["XML", {:controller => :workflows, :action => :show_xml, :id => @workflow.id}],
+                            ["Properties", {:controller => :workflows, :action => :edit_properties, :id => @workflow.id}],
+                            ["Jobs", {:controller => :workflows, :action => :jobs, :id => @workflow.id}],
+                            ["Flowchart", {:controller => :workflows, :action => :flowchart, :id => @workflow.id}]
+                          ]
+          - menu_links.each do |link_text, url_params|
+            %li{:class => "#{"selected" if params[:action] == url_params[:action].to_s}"}
+              = link_to link_text, url_params

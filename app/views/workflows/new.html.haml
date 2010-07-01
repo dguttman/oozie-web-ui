@@ -1,0 +1,19 @@
+#new_workflow
+
+  %h1
+    Upload New Oozie Workflow
+
+  %blockquote
+    Please enter a name for your new workflow. Accepted archive file types are: .tgz, .tar.gz, and .tar
+
+  = error_messages_for :workflow
+
+  .form
+    - form_for :workflow, @workflow, :url => {:action => :create}, :html => { :multipart => true } do |form|
+      = form.label :name
+      = form.text_field :name
+      %br
+      = form.label :archive
+      = form.file_field :archive
+      %br
+      = form.submit "Create", :class => "submit"

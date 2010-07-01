@@ -1,0 +1,267 @@
+!logo_blue = #52C0D9
+!light_grey = #e8eae8
+!darker_grey = #c9d2cc
+!em_px = 12.5px
+!bg_white = #f2f2f2
+!line_grey = #848484
+!footer_height = 2em
+
+// sticky footer
+
+* 
+  margin: 0
+  padding: 0
+
+html, body, #wrap
+  height: 100%
+  
+body > #wrap
+  height: auto
+  min-height: 100%
+
+#wrap
+  width: 100%
+  text-align: center
+  
+#content
+  overflow: auto
+  padding-bottom = !footer_height
+
+#footer
+  position: relative
+  margin-top = -1 * !footer_height
+  height = !footer_height
+  clear: both
+
+
+body
+  background: url("/images/top_bg.jpg") repeat-x scroll 0 0 #f2f2f2
+  color: #1e1e1e
+  
+h1
+  :color #292929
+  :text-align center
+  :font-weight bold
+
+a
+  :color = !logo_blue - #666
+
+#header
+  :text-align center
+  :z-index 100
+#logo
+  :margin 0 auto
+  img
+    :position relative
+    :z-index 100
+
+#nav
+  //:clear both
+  //:position absolute
+  //:top 75px
+  :width 100%
+  
+  .links
+    //:height = !em_px * 3 + 10
+    height: 2em
+
+    .clear
+      //:height = !em_px * 2
+
+    .selected
+      -moz-border-radius-topleft: 5px
+      -moz-border-radius-topright: 5px
+      padding-top: 5px
+      padding-bottom: 5px
+
+    ul
+      :margin 0
+
+    li
+      :display inline
+      :text-transform uppercase
+      :padding-left 10px
+      :padding-right 10px
+      margin: 0 0 0 20px
+      
+      a
+        :color #000
+        :font-size 150%
+        :font-family garamond, serif
+        :text-decoration none
+        :line-height 1.3em
+        :text-transform capitalize
+      a:hover
+        :color #666
+  
+  .links.first_links
+    :background url("/images/top_shadow.png") repeat-x scroll center bottom #C9D2CC
+    :background-color = !light_grey
+    li.selected
+      :background-color = !darker_grey
+  
+  .links.second_links
+    :background url("/images/top_shadow.png") repeat-x scroll center bottom #C9D2CC
+    :background-color = !darker_grey
+    //:height = !em_px * 2 + 10
+    .clear
+      :height = !em_px
+    li.selected
+      :background-color = !bg_white
+
+#content
+  text-align: center
+  margin: 20px auto
+  float: none  
+
+  #workflow_info
+    table
+      width: 500px
+      margin: 0 auto
+  
+  #log
+    .preformatted
+      :max-height 500px
+      :overflow auto
+  
+  #new_workflow
+    :margin 0 auto
+    .form
+      :width 450px
+      :margin 0 auto
+    form
+      :width 100%
+      :margin-left -15px
+  
+  #workflow_xml
+    #versions
+      li
+        :display inline
+    textarea
+      :width 100%
+      :height 500px
+  
+  .job_actions
+    :margin 10px auto
+  
+  table
+    :background-color = !light_grey
+    :border solid 1px #848484
+
+    .parameter
+      font-weight: bold
+      text-align: right
+
+    thead
+      th
+        :background-color = !darker_grey
+        :border-bottom solid 1px #848484
+        :padding 10px
+      th.parameter
+        min-width: 100px
+      th.value
+
+    tbody
+      tr
+        :border-left solid 2px #848484
+        :border-right solid 2px #848484
+        td.parameter
+          border-right:
+            color = (!light_grey - #222)
+            width: 1px
+            style: solid
+      tr.even
+        :background-color = !light_grey - #111
+        td.parameter
+          //:background-color = (!light_grey - #111) + #080800
+          border-right:
+            color = (!light_grey - #222)
+            width: 1px
+            style: solid
+      tr.odd
+        td.parameter
+          //:background-color = (!light_grey) + #080800
+      
+      td
+        :padding 10px
+        pre
+          white-space: pre-wrap
+
+
+      
+  .form
+    :text-align center
+  
+    form
+      :margin 0 auto
+      :width 900px
+      :padding 14px
+      //:float left
+      :text-align center
+      :background-color = !light_grey
+      :border solid 1px #848484
+      
+      label
+        :display block
+        :font-weight bold
+        :text-align right
+        :width 20%
+        :float left
+        :margin-top 6px
+      select
+        :float left
+        :font-size 12px
+        :padding 4px 2px
+        :border solid 1px #999
+        :width 181px
+        :margin 2px 0 20px 10px
+      input
+        :float left
+        :font-size 12px
+        :padding 4px 2px
+        :border solid 1px #999
+        :width 70%
+        :margin 2px 0 20px 10px
+
+      input.submit
+        :clear both
+        :float none
+        :margin 0 auto
+        :width 125px
+        :height 31px
+        :background #666666 no-repeat
+        :text-align center
+        :line-height 31px
+        :color #FFFFFF
+        :font-size 11px
+        :font-weight bold  
+
+#footer
+  clear: both
+  padding-top: 10px
+  height = !footer_height
+  margin-top = -1 * !footer_height
+  color = !bg_white
+  text-align: center
+  position: relative
+  width: 100%
+  bottom: 0
+  background:
+    color = !darker_grey
+    image: url(/images/footer_bg.png)
+    repeat: repeat-x
+    position: top
+
+
+
+.preformatted
+  :background-color = !light_grey
+  :border solid 1px #848484
+  :padding 10px
+  :text-align left
+  :margin 0 auto
+  :width 80%
+  :overflow auto
+
+.auto_update_switch
+  margin-bottom: 5px

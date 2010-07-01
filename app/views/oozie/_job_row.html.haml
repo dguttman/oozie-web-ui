@@ -1,0 +1,31 @@
+%tr
+  %td 
+    = link_to job.id, job_path(job.id) 
+  %td 
+    = job.name
+  %td 
+    = job.status
+  %td 
+    = job.run
+  %td 
+    = job.user
+  %td 
+    = job.group
+  %td 
+    = format_time(job.created_at)
+  %td 
+    = format_time(job.started_at)
+  %td
+    - actions = []
+    - if job.status == "KILLED" || job.status == "SUCCEEDED"
+      - actions << link_to("Restart", :controller => :jobs, :action => :restart, :id => job.id)
+    - if job.status == "PREP"
+      - actions << link_to("Start", :controller => :jobs, :action => :start, :id => job.id)
+    - if job.status == "RUNNING"
+      - actions << link_to("Suspend", :controller => :jobs, :action => :suspend, :id => job.id )
+      - actions << link_to("Kill", :controller => :jobs, :action => :kill, :id => job.id)
+    - if job.status == "SUSPENDED"
+      - actions << link_to("Resume", :controller => :jobs, :action => :resume, :id => job.id)
+    = actions.join(" | ")
+    
+

@@ -1,0 +1,26 @@
+%table
+  %thead
+    %th
+      Job Id
+    %th
+      Name
+    %th
+      Status
+    %th
+      Run
+    %th
+      User
+    %th
+      Group
+    %th
+      Workflow
+    %th
+      Created
+    %th
+      Started
+    %th
+      Commands
+      
+  %tbody
+    - @jobs.each do |job|
+      = render :partial => "jobs/job_row", :locals => {:job => job} if job

@@ -1,0 +1,42 @@
+<workflow-app xmlns='uri:oozie:workflow:0.1' name='clarke'>
+    <start to='hadoop2' />
+    <action name='hadoop2'>
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.mapper.class</name>
+                    <value>org.apache.oozie.example.SampleMapper</value>
+                </property>
+                <property>
+                    <name>mapred.reducer.class</name>
+                    <value>org.apache.oozie.example.SampleReducer</value>
+                </property>
+                <property>
+                    <name>mapred.map.tasks</name>
+                    <value>1</value>
+                </property>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>${inputDir}</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>${outputDir}/mapRed</value>
+                </property>
+		<property>
+                    <name>oozie.test</name>
+                    <value>hiRoyce</value>
+                </property>
+
+            </configuration>
+        </map-reduce>
+        <ok to="end" />
+        <error to="fail" />
+    </action>
+    <kill name="fail">
+        <message>Map/Reduce failed, error message[${wf:errorMessage()}]</message>
+    </kill>
+    <end name='end' />
+</workflow-app>

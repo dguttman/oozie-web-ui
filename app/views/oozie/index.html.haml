@@ -1,0 +1,51 @@
+%h1
+  Job Queue
+
+%table
+  %thead
+    %th
+      Job Id
+    %th
+      Name
+    %th
+      Status
+    %th
+      Run
+    %th
+      User
+    %th
+      Group
+    %th
+      Created
+    %th
+      Started
+    %th
+      Commands
+      
+  %tbody
+    - @jobs.each do |job|
+      = render :partial => "job_row", :locals => {:job => job}
+
+/ .span-15
+/   %h2
+/     Upload an oozie application
+/     
+/   = file_field_tag "file"
+/   = submit_tag "Upload"
+/   .clear
+/   
+/   %hr{:class => "space"}
+/ 
+/   %h2{:style => "display:inline"}
+/     submit Workflow
+/   = link_to "(download template)", "#"
+/   = text_area "workflow", "#"
+/   %br
+/   = submit_tag "Submit"
+/ 
+/ .span-8
+/   - restartable_jobs = @jobs.collect { |j| (j.status == "KILLED") ?  [j.id, j.id] : nil}.compact
+/   %h2
+/     Restart Job
+/   = select "job", "job_id", restartable_jobs
+/   = submit_tag "Restart"

@@ -1,0 +1,6 @@
+<% flash_message(:success, :notice, :error, :errors) do |message, message_type| %>
+  <div class="container">
+    <div class="<%= message_type %>"><%= message %></div>
+  </div>
+<% end %>
+

@@ -1,0 +1,24 @@
+= periodically_call_remote(:url => { :action => 'index', :no_layout => "true" }, :update => 'jobs_list', :frequency => 2) if params[:auto_update]
+
+%h1
+  Job Queue
+
+%blockquote
+  This is a list of all the jobs tracked in Oozie. 
+  
+.auto_update_switch
+  = "Automatic Update: "
+  - if params[:auto_update]
+    = "ON"
+    = " | "
+    = link_to "OFF", params.merge(:auto_update => nil)
+  - else
+    = link_to "ON", params.merge(:auto_update => true)
+    = " | "
+    = "OFF"
+
+#jobs_list
+  = render :partial => 'jobs_list_table'
+
+#pagination_links
+  = will_paginate @jobs
